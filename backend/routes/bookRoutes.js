@@ -5,7 +5,7 @@ const Books=require("../models/bookmodel");
 
 
 
-//Router1:For fetching all books
+//Route 1:For fetching all books
 router.get("/fetchallbooks", async (req, res) => {
   try {
     const books = await Books.find({});
@@ -16,7 +16,7 @@ router.get("/fetchallbooks", async (req, res) => {
   }
 });
 
-//Router2:For adding the book.
+//Route 2:For adding the book.
 router.post(
   "/addbook",
   [
@@ -51,8 +51,71 @@ router.post(
 );
 
 
-//Router 3:Search for a specific book by its id.
+//Route 3:Search for a specific book by its id.
+router.get("/specificbook/:id", async (req, res) => {
+  try {
+    let book = await Books.findById(req.params.id);
+    if (!book) {
+      return res.status(404).send("Not Found");
+    }
+    res.json(book);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
+
+//Route 4:Search a specific book by its id and update its details.
+router.put("/updatebook/:id", async (req, res) => {
+  const { title, author, summary } = req.body;
+  try {
+    //create a new book object
+    const newBooks = {};
+    if (title) {
+      newBooks.title = title;
+    }
+    if (author) {
+      newBooks.author = author;
+    }
+    if (summary) {
+      newBooks.summary = summary;
+    }
+
+    //Finding the book to be updated and update it
+    let book = await Books.findById(req.params.id);
+    if (!book) {
+      return res.status(404).send("Not Found");
+    }
+    book = await Books.findByIdAndUpdate(
+      req.params.id,
+      { $set: newBooks },
+      { new: true }
+    );
+    res.json(book);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+//Route 5:For deleting a book with given id.
+router.delete("/deletebook/:id", async (req, res) => {
+  try {
+    //Finding the book to delete and delete it
+    let book = await Books.findById(req.params.id);
+    if (!book) {
+      return res.status(404).send("Not Found");
+    }
+
+    book = await Books.findByIdAndDelete(req.params.id);
+    res.send({ Sucess: "Book has been deleted", book: book });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 module.exports = router;
 
