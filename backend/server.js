@@ -6,6 +6,7 @@ const bookRoutes = require("./routes/bookRoutes");
 const cors = require("cors");
 dotenv.config();
 connectDB();
+const PORT=process.env.PORT;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -17,4 +18,4 @@ app.get("/", (req, res) => {
 
 app.use("/api/book", bookRoutes);
 
-app.listen(5000, console.log("Server listening on port 5000"));
+app.listen(PORT, console.log("Server listening on port 5000"));
