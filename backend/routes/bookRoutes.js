@@ -4,7 +4,6 @@ const { body, validationResult } = require("express-validator");
 const Books=require("../models/bookmodel");
 
 
-
 //Route 1:For fetching all books using GET "/api/book/fetchallbooks"
 router.get("/fetchallbooks", async (req, res) => {
   try {
@@ -15,6 +14,7 @@ router.get("/fetchallbooks", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 //Route 2:For adding the book using POST "/api/book/addbook"
 router.post(
