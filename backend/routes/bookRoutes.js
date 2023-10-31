@@ -5,7 +5,7 @@ const Books=require("../models/bookmodel");
 
 
 
-//Route 1:For fetching all books
+//Route 1:For fetching all books using GET "/api/book/fetchallbooks"
 router.get("/fetchallbooks", async (req, res) => {
   try {
     const books = await Books.find({});
@@ -16,7 +16,7 @@ router.get("/fetchallbooks", async (req, res) => {
   }
 });
 
-//Route 2:For adding the book.
+//Route 2:For adding the book using POST "/api/book/addbook"
 router.post(
   "/addbook",
   [
@@ -51,7 +51,7 @@ router.post(
 );
 
 
-//Route 3:Search for a specific book by its id.
+//Route 3:Search for a specific book by its id using GET "/api/book/specificbook/:id"
 router.get("/specificbook/:id", async (req, res) => {
   try {
     let book = await Books.findById(req.params.id);
@@ -66,7 +66,7 @@ router.get("/specificbook/:id", async (req, res) => {
 });
 
 
-//Route 4:Search a specific book by its id and update its details.
+//Route 4:Search a specific book by its id and update its details PUT "/api/book/updatebook/:id"
 router.put("/updatebook/:id", async (req, res) => {
   const { title, author, summary } = req.body;
   try {
@@ -100,7 +100,7 @@ router.put("/updatebook/:id", async (req, res) => {
 });
 
 
-//Route 5:For deleting a book with given id.
+//Route 5:For deleting a book with given id DELETE "/api/book/deletebook/:id"
 router.delete("/deletebook/:id", async (req, res) => {
   try {
     //Finding the book to delete and delete it
